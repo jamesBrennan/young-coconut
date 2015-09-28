@@ -5,6 +5,11 @@ module Api
         routines = Routine.all
         render json: JSONAPI::Serializer.serialize(routines, is_collection: true)
       end
+
+      def show
+        routine = Routine.find(params[:id])
+        render json: JSONAPI::Serializer.serialize(routine, is_collection: false, include: ['routine_sets'])
+      end
     end
   end
 end
