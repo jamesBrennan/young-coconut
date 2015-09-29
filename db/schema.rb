@@ -1,5 +1,4 @@
 ActiveRecord::Schema.define(:version => 20120521144648) do
-
   create_table "exercises", :force => true do |t|
     t.string   "name"
     t.datetime "created_at", :null => false
