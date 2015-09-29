@@ -1,7 +1,7 @@
-routineListController = (routineService) ->
-  console.log('routineList')
-  @routines = routineService.query {}, (routines) ->
-    console.log('routines', routines)
+routineListController = ($scope, routineService) ->
+  routineService.query({}, (routines) ->
+    $scope.routines = routines
+  )
 
-routineListController.$inject = ['routineService']
+routineListController.$inject = ['$scope','routineService']
 angular.module('YoungCoconut::Routines').controller 'RoutineListController', routineListController

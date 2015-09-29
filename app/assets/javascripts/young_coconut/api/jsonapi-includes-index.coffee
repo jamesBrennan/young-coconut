@@ -1,4 +1,4 @@
-resourceIndexFactory = ->
+JSONAPIIndexFactory = ->
   buildIndex = (included) ->
     includedIndex = {}
     for model in included
@@ -15,4 +15,4 @@ resourceIndexFactory = ->
       return (obj for obj in ofType when obj) unless id
       index[type][Number(id)]
 
-angular.module('YoungCoconut::Api').factory 'ResourceIndex', resourceIndexFactory
+angular.module('YoungCoconut::Api').factory 'JSONAPIIncludesIndex', JSONAPIIndexFactory

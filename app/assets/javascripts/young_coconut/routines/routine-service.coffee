@@ -1,6 +1,6 @@
 routineService = (Routine) ->
   query: (q = {}, success = (->), failure = (->)) ->
-    params = $.extend({include: 'routine_sets'}, q)
+    params = $.extend({include: 'routine-sets'}, q)
     Routine.query(params, success, failure)
 
 routineService.$inject = ['Routine']
