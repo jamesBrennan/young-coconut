@@ -1,18 +1,19 @@
 source 'https://rubygems.org'
 
+# core
 gem 'rails', '4.2.3'
+
+# database
 gem 'pg'
+
+# assets
 gem 'sass-rails', '~> 5.0'
+gem 'slim-rails'
+gem 'bower-rails'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.1.0'
-# gem 'therubyracer', platforms: :ruby
 
-# Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
-
-# Use Unicorn as the app server
-# gem 'unicorn'
-
+# http request/response
 gem 'jsonapi-serializers'
 
 group :development, :test do

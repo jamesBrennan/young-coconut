@@ -1,0 +1,6 @@
+# A sample Bowerfile
+# Check out https://github.com/42dev/bower-rails#ruby-dsl-configuration for more options
+
+asset "jQuery", "2.1.4"
+asset "angular", "1.4.6"
+asset "angular-resource", "1.4.6"
