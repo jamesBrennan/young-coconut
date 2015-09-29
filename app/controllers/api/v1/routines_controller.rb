@@ -8,7 +8,7 @@ module Api
 
       def show
         routine = Routine.find(params[:id])
-        render json: JSONAPI::Serializer.serialize(routine, is_collection: false, include: ['routine_sets'])
+        render json: JSONAPI::Serializer.serialize(routine, is_collection: false, include: params[:include])
       end
     end
   end

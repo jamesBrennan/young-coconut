@@ -1,7 +1,7 @@
 h3 Routines
 ul.routine-list
   li ng-repeat="routine in routines"
-    span ng-bind="routine.name"
+    a ng-href="{{routineUrl(routine)}}" ng-bind="routine.name"
     span
       | &nbsp;
       | - {{routine['routine-sets'].length}} sets

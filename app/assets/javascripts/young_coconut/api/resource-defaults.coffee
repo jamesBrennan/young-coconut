@@ -6,8 +6,11 @@ resourceDefaults = (JSONAPIIncludesTransform) ->
       rejection
 
   interceptor: interceptor
-
   methods:
+    get:
+      method: 'GET'
+      isArray: false
+      interceptor: interceptor
     query:
       method: 'GET'
       isArray: false,
