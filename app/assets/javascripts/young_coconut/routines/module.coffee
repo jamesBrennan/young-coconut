@@ -1,10 +1,12 @@
 #= require ../api/module
 #= require_self
-#= require_tree .
+#= require ./routine
+#= require ./routine-service
+#= require ./routine-list-controller
 
 dependencies = [
   'ngResource'
   'YoungCoconut::Api'
 ]
 
-angular.module('YoungCoconut::Routines', dependencies)
+routines = angular.module('YoungCoconut::Routines', dependencies)

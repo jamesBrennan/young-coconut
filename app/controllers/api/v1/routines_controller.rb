@@ -3,7 +3,7 @@ module Api
     class RoutinesController < ApplicationController
       def index
         routines = Routine.all
-        render json: JSONAPI::Serializer.serialize(routines, is_collection: true)
+        render json: JSONAPI::Serializer.serialize(routines, is_collection: true, include: params[:include])
       end
 
       def show

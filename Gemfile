@@ -12,6 +12,7 @@ gem 'slim-rails'
 gem 'bower-rails'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.1.0'
+gem 'angular-rails-templates'
 
 # http request/response
 gem 'jsonapi-serializers'
@@ -21,5 +22,6 @@ group :development, :test do
   gem 'web-console', '~> 2.0'
   gem 'spring'
   gem 'rspec-rails', '~> 3.0'
+  gem 'jasmine-rails'
 end
 

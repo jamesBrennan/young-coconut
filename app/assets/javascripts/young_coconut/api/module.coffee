@@ -1,3 +1,6 @@
+#= require_self
+#= require_tree .
+
 api = angular.module('YoungCoconut::Api', [])
 
 api.config(["$httpProvider", ($httpProvider) ->
