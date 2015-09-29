@@ -1,19 +1,6 @@
-routineFactory = ($resource, JSONAPIIncludesTransform) ->
+routineFactory = ($resource, resourceDefaults) ->
   API_URL = '/api/v1/routines/:id.json'
+  $resource API_URL, {id: '@id'}, resourceDefaults.methods
 
-  responseInterceptor = (config) ->
-    JSONAPIIncludesTransform(config.resource)
-
-  responseErrorInterceptor = (rejection) ->
-    rejection
-
-  $resource API_URL, {id: '@id'},
-    query:
-      method: 'GET'
-      isArray: false,
-      interceptor:
-        response: responseInterceptor
-        responseError: responseErrorInterceptor
-
-routineFactory.$inject = ['$resource', 'JSONAPIIncludesTransform']
+routineFactory.$inject = ['$resource', 'resourceDefaults']
 angular.module('YoungCoconut::Routines').factory 'Routine', routineFactory
