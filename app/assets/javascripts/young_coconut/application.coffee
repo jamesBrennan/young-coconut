@@ -9,5 +9,5 @@ YoungCoconut = angular.module('YoungCoconut', dependencies)
 YoungCoconut.config(['$routeProvider', ($routeProvider) ->
   $routeProvider
     .otherwise
-      redirectTo: '/routines'
+      redirectTo: '/workouts/new'
 ]);
