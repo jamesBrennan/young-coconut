@@ -13,7 +13,10 @@ resourceDefaults = (JSONAPIIncludesTransform) ->
       interceptor: interceptor
     query:
       method: 'GET'
-      isArray: false,
+      isArray: false
+      interceptor: interceptor
+    save:
+      method: 'POST'
       interceptor: interceptor
 
 angular.module('YoungCoconut::Api').service 'resourceDefaults', resourceDefaults

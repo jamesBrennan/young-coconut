@@ -1,6 +1,9 @@
-workoutService = (Workout, userService) ->
-  new: ->
-    new Workout()
+workoutService = (Workout) ->
+  new: (success = (->), error = (->)) ->
+    Workout.get({id: 'new'}, success, error)
 
-workoutService.$inject = ['Workout', 'userService']
-angular.module('YoungCoconut::Workout').service 'workoutService', workoutService
+  create: (attrs) ->
+    Workout.save({}, attrs)
+
+workoutService.$inject = ['Workout']
+angular.module('YoungCoconut::Workouts').service 'workoutService', workoutService

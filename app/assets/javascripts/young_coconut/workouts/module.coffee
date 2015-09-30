@@ -1,11 +1,12 @@
 #= require ../api/module
 #= require_self
+#= require_tree .
 
 dependencies = [
   'ngResource'
   'ngRoute'
   'YoungCoconut::Api'
-  'YoungCoconut::Routine'
+  'YoungCoconut::Routines'
 ]
 
 workouts = angular.module('YoungCoconut::Workouts', dependencies)

@@ -1,8 +1,10 @@
 #= require ./routines/module
+#= require ./workouts/module
 
 dependencies = [
   'ngRoute'
   'YoungCoconut::Routines'
+  'YoungCoconut::Workouts'
 ]
 
 YoungCoconut = angular.module('YoungCoconut', dependencies)

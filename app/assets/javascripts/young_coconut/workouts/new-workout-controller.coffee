@@ -1,7 +1,13 @@
 NewWorkoutController = ($scope, workoutService, routineService) ->
-  $scope.workout = workoutService.new()
+  workoutService.new (workout) ->
+    $scope.workout = workout
+
   routineService.query {}, (routines) ->
+    $scope.routine = routines.first
     $scope.routines = routines
 
-NewWorkoutController.$inject = ['$scope','workoutService', 'routineService']
-angular.module('YoungCoconut::Api').controller 'NewWorkoutController'
+  $scope.startWorkout = ->
+    workoutService.create($scope.workout)
+
+NewWorkoutController.$inject = ['$scope','workoutService','routineService']
+angular.module('YoungCoconut::Workouts').controller 'NewWorkoutController', NewWorkoutController

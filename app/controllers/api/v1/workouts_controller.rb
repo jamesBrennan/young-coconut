@@ -12,7 +12,7 @@ module Api
       end
 
       def new
-        serialize Workout.new(user: current_user), includes: 'user'
+        serialize Workout.new(user: current_user), include: 'user'
       end
 
       def create
@@ -26,7 +26,10 @@ module Api
       private
 
       def workout_params
-        {routine_id: params["data"]["relationships"]["routine"]["data"]["id"]}
+        {
+          routine_id: params["data"]["relationships"]["routine"]["data"]["id"],
+          user_id: params["data"]["relationships"]["user"]["data"]["id"]
+        }
       end
 
       def check_for_workout_in_progress
