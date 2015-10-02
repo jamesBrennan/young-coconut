@@ -45,19 +45,13 @@ module Api
 
       describe 'create' do
         let(:routine) { Routine.create(name: "Test Routine") }
-        let(:params) {{
-          "data" => {
-            "type" => 'workouts',
-            "relationships" => {
-              "routine" => {
-                "data" => {
-                  "type" => "routines",
-                  "id" => routine.id
-                }
-              }
-            }
-          }
-        }}
+        let(:user) { User.create }
+
+        let(:routine_params)  { { routine:  { data: { type: "routines", id: routine.id } } } }
+        let(:user_params)     { { user:     { data: { type: "users",    id: user.id } } } }
+        let(:relationship_params) { {}.merge(routine_params).merge(user_params) }
+
+        let(:params) { { data: { type: 'workouts', relationships: relationship_params } } }
 
         before { routine }
 
@@ -86,6 +80,36 @@ module Api
             post :create, params
           end
           include_examples "check for workout in progress"
+        end
+
+        context "without a user" do
+          let(:user_params) { {} }
+
+          it 'returns a 422' do
+            post :create, params
+            expect(response.status).to eq 422
+          end
+
+          it 'includes the validation errors' do
+            post :create, params
+            body = JSON.parse response.body
+            expect(body['error']['meta']['validation_errors']['user']).to eq ["can't be blank"]
+          end
+        end
+
+        context "without a routine" do
+          let(:routine_params) { {} }
+
+          it 'returns a 422' do
+            post :create, params
+            expect(response.status).to eq 422
+          end
+
+          it 'includes the validation errors' do
+            post :create, params
+            body = JSON.parse response.body
+            expect(body['error']['meta']['validation_errors']['routine']).to eq ["can't be blank"]
+          end
         end
       end
     end

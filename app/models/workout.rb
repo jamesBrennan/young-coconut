@@ -3,6 +3,9 @@ class Workout < ActiveRecord::Base
   belongs_to :routine
   has_many :workout_sets
 
+  validates :user, presence: true
+  validates :routine, presence: true
+
   def self.for_user(user)
     where(user: user)
   end
