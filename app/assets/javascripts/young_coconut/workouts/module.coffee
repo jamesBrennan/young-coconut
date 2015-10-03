@@ -15,4 +15,7 @@ workouts.config(['$routeProvider', ($routeProvider) ->
     .when '/workouts/new',
       templateUrl: 'assets/workout-new-template.html'
       controller: 'NewWorkoutController'
+    .when '/workouts/:id',
+      templateUrl: 'assets/workout-template.html'
+      controller: 'WorkoutController'
 ]);

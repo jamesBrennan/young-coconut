@@ -8,7 +8,7 @@ module Api
       end
 
       def show
-        serialize Workout.find(params[:id])
+        serialize Workout.find(params[:id]), include: params[:include]
       end
 
       def new
