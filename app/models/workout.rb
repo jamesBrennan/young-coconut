@@ -11,7 +11,7 @@ class Workout < ActiveRecord::Base
   end
 
   def self.in_progress
-    where(completed: false)
+    where(completed: nil)
   end
 
   def detail
