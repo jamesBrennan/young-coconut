@@ -4,7 +4,7 @@ module Api
       around_action :check_for_workout_in_progress, only: [:new, :create]
 
       def index
-        serialize_list Workout.all
+        serialize Workout.all, list: true
       end
 
       def show
@@ -18,10 +18,9 @@ module Api
       def create
         workout = Workout.new(create_params)
         if workout.save
-          headers = { "Location" => api_v1_workouts_url(workout) }
-          serialize workout, headers: headers, status: 201
+          serialize workout, status: 201, headers: { "Location" => api_v1_workouts_url(workout) }
         else
-          render json: invalid_attributes_error(workout), status: 422
+          serialize_error Errors::ValidationError.new(resource: workout)
         end
       end
 
@@ -35,21 +34,17 @@ module Api
         workout_params[:relationships]
       end
 
-      def routine_params
-        (relationship_params[:routine] && relationship_params[:routine][:data]) || {}
-      end
-
-      def user_params
-        (relationship_params[:user] && relationship_params[:user][:data]) || {}
+      def relationship(name)
+        (relationship_params[name] && relationship_params[name][:data]) || {}
       end
 
       def create_params
-        { routine_id: routine_params[:id], user_id: user_params[:id] }
+        { routine_id: relationship(:routine)[:id], user_id: relationship(:user)[:id] }
       end
 
       def check_for_workout_in_progress
         if workout_in_progress?
-          render json: workout_in_progress_error(workout_in_progress), status: 409
+          serialize_error Errors::WorkoutInProgress.new(workout: workout_in_progress)
         else
           yield
         end
@@ -63,42 +58,17 @@ module Api
         Workout.includes(:workout_sets, routine: :routine_sets).in_progress.for_user(current_user).first
       end
 
-      def workout_in_progress_error(workout)
-        {error: {
-          status: "409",
-          code: "WORKOUT_IN_PROGRESS",
-          title: "A workout is already in progress. A new workout can not be started until the current workout is completed.",
-          detail: workout.detail,
-          meta: {
-            conflicting_resource: JSONAPI::Serializer.serialize(workout, is_collection: false)
-          }
-        }}
-      end
-
-      def invalid_attributes_error(workout)
-        {error: {
-          status: "422",
-          code: "INVALID_ATTRIBUTES",
-          title: "A workout could not be created using the provided attributes.",
-          meta: {
-            validation_errors: workout.errors
-          }
-        }}
+      def serialize_error(error)
+        serializer = "Errors::#{error.code}Serializer".constantize
+        render json: serializer.serialize(error), status: error.status
       end
 
       def serialize(workout, opts = {})
-        includes = opts[:include]
-        headers = opts[:headers]
-        status = opts[:status] || 200
-        body = JSONAPI::Serializer.serialize(workout, is_collection: false, include: includes)
-        render json: body, status: status, headers: headers
-      end
-
-      def serialize_list(workouts, opts = {})
-        includes = opts[:include]
-        headers = opts[:headers]
-        status = opts[:status] || 200
-        body = JSONAPI::Serializer.serialize(workouts, is_collection: true, include: includes)
+        includes  = opts[:include]
+        headers   = opts[:headers]
+        status    = opts[:status] || 200
+        list      = !!opts[:list]
+        body      = JSONAPI::Serializer.serialize(workout, is_collection: list, include: includes)
         render json: body, status: status, headers: headers
       end
     end
