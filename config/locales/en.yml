@@ -3,5 +3,7 @@ en:
     errors:
       workout_in_progress:
         title: A workout is already in progress. A new workout can not be started until the current workout is completed.
+      workout_complete:
+        title: The workout has been completed.
       validation_error:
         title: The %{resource} could not be created due to validation errors.

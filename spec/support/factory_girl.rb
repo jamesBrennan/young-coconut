@@ -1,8 +1,10 @@
 require 'factory_girl'
 require 'database_cleaner'
 
-Dir[File.expand_path("../../factories/*", __FILE__)].each do |file|
-  require file
+unless FactoryGirl.factories[:exercise]
+  Dir[File.expand_path("../../factories/*", __FILE__)].each do |file|
+    require file
+  end
 end
 
 RSpec.configure do |config|

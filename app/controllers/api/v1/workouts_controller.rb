@@ -1,6 +1,6 @@
 module Api
   module V1
-    class WorkoutsController < ApplicationController
+    class WorkoutsController < ApiController
       around_action :check_for_workout_in_progress, only: [:new, :create]
 
       def index
@@ -56,20 +56,6 @@ module Api
 
       def workout_in_progress
         Workout.includes(:workout_sets, routine: :routine_sets).in_progress.for_user(current_user).first
-      end
-
-      def serialize_error(error)
-        serializer = "Errors::#{error.code}Serializer".constantize
-        render json: serializer.serialize(error), status: error.status
-      end
-
-      def serialize(workout, opts = {})
-        includes  = opts[:include]
-        headers   = opts[:headers]
-        status    = opts[:status] || 200
-        list      = !!opts[:list]
-        body      = JSONAPI::Serializer.serialize(workout, is_collection: list, include: includes)
-        render json: body, status: status, headers: headers
       end
     end
   end

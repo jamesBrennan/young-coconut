@@ -1,17 +1,18 @@
 module Api
   module V1
-    class WorkoutSetsController < ApplicationController
+    class WorkoutSetsController < ApiController
       def index
         workout_sets = WorkoutSet.where(workout_id: params[:workout_id])
-        render json: JSONAPI::Serializer.serialize(workout_sets, is_collection: true)
+        serialize workout_sets, list: true
       end
 
       def new
-        workout_set = Workout.find(params[:workout_id]).next_set
+        workout = Workout.find(params[:workout_id])
+        workout_set = workout.next_set
         if workout_set
-          render json: JSONAPI::Serializer.serialize(workout_set, is_collection: false, include: 'exercise')
+          serialize workout_set, include: 'exercise'
         else
-          head 409
+          serialize_error Errors::WorkoutComplete.new workout: workout
         end
       end
 
