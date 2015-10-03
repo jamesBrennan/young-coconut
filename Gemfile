@@ -25,5 +25,7 @@ group :development, :test do
   gem 'rspec-its'
   gem 'jasmine-rails'
   gem 'activerecord-nulldb-adapter'
+  gem 'factory_girl_rails', '~> 4.2'
+  gem 'database_cleaner'
 end
 
