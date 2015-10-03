@@ -1,6 +1,5 @@
 require 'active_record_helper'
 require 'support/factory_girl'
-require_relative '../../app/models/workout'
 
 describe Workout do
   describe 'validation' do
@@ -25,7 +24,7 @@ describe Workout do
     end
   end
 
-  describe 'current_relationship' do
+  describe 'next_set' do
     let(:routine) { create :routine }
     let!(:routine_sets) {[
       create(:routine_set, order: 1, routine: routine),
@@ -34,23 +33,35 @@ describe Workout do
     ]}
 
     let(:workout) { create :workout, routine: routine }
-    subject(:current_set) { workout.current_set }
+    subject(:next_set) { workout.next_set }
 
     it 'returns a new workout_set' do
-      expect(current_set).to be_a WorkoutSet
+      expect(next_set).to be_a WorkoutSet
     end
 
     it 'returns the first routine set' do
-      expect(current_set.routine_set.order).to eq 1
+      expect(next_set.routine_set.order).to eq 1
     end
 
     context 'when some workout_sets have been completed' do
       before do
-        workout.workout_sets.create routine_set: routine_sets.first, metrics: '{reps: 10, weight: 50, units: "lbs"}'
+        workout.workout_sets.create routine_set: routine_sets.first
       end
 
       it 'returns a workout set for the first un-started routine set' do
-        expect(current_set.routine_set.order).to eq 2
+        expect(next_set.routine_set.order).to eq 2
+      end
+    end
+
+    context 'when all workout_sets have been completed' do
+      before do
+        workout.routine_sets.each do |routine_set|
+          workout.workout_sets.create routine_set: routine_set
+        end
+      end
+
+      it 'returns nil' do
+        expect(next_set).to be_nil
       end
     end
   end

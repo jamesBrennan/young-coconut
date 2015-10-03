@@ -16,17 +16,21 @@ class Workout < ActiveRecord::Base
     where(completed: nil)
   end
 
-  def current_set
-    next_set = routine_sets
-                  .where.not(id: completed_routine_set_ids)
-                  .order(order: :asc)
-                  .first
-
-    workout_sets.build(routine_set: next_set)
+  def next_set
+    set = next_routine_set
+    return nil unless set
+    workout_sets.build(routine_set: set)
   end
 
   def completed_routine_set_ids
     workout_sets.pluck(:routine_set_id)
+  end
+
+  def next_routine_set
+    routine_sets
+      .where.not(id: completed_routine_set_ids)
+      .order(order: :asc)
+      .first
   end
 
   def detail
