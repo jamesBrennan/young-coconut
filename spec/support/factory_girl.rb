@@ -1,7 +1,7 @@
 require 'factory_girl'
 require 'database_cleaner'
 
-unless FactoryGirl.factories[:exercise]
+unless FactoryGirl.factories.registered?('exercise')
   Dir[File.expand_path("../../factories/*", __FILE__)].each do |file|
     require file
   end

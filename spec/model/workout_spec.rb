@@ -65,4 +65,33 @@ describe Workout do
       end
     end
   end
+
+  describe 'total_sets' do
+    let(:routine) { create :routine }
+    let!(:routine_sets) {[
+      create(:routine_set, order: 1, routine: routine),
+      create(:routine_set, order: 2, routine: routine),
+      create(:routine_set, order: 3, routine: routine)
+    ]}
+
+    let(:workout) { create :workout, routine: routine }
+    subject { workout.total_sets }
+
+    it { should eq routine_sets.count }
+  end
+
+  describe 'completed_sets' do
+    let(:routine) { create :routine }
+    let!(:routine_sets) {[
+      create(:routine_set, order: 1, routine: routine),
+      create(:routine_set, order: 2, routine: routine),
+      create(:routine_set, order: 3, routine: routine)
+    ]}
+
+    let(:workout) { create :workout, routine: routine }
+    subject { workout.completed_sets }
+    before { workout.workout_sets.create routine_set: routine_sets.first }
+
+    it { should eq 1 }
+  end
 end

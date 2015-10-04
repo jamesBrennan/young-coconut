@@ -4,14 +4,12 @@ NewWorkoutController = ($scope, $location, workoutService, routineService) ->
     conflict.data.id
 
   redirectToConflicting = (response) ->
-    path = "/workouts/#{conflictId(response)}"
+    path = "/workouts/#{conflictId(response)}/workout_sets/next"
     $location.path path
 
   workoutService.new (workout) ->
-    console.log('ok')
     $scope.workout = workout
   , (response) ->
-    console.log(response.status)
     switch response.status
       when 409 then redirectToConflicting(response)
 

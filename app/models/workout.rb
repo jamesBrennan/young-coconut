@@ -33,6 +33,14 @@ class Workout < ActiveRecord::Base
       .first
   end
 
+  def total_sets
+    routine_sets.count
+  end
+
+  def completed_sets
+    workout_sets.count
+  end
+
   def detail
     template = "%s was started on %s. <br> %s of %s sets have been completed."
     values = [routine.name, created_at.to_s(:short), workout_sets.count, routine.routine_sets.count]

@@ -1,0 +1,34 @@
+.workout_set_header
+  .workout_set_header__name ng-bind='workout.routine.name'
+  .workout_set_header__progress
+    | Set {{workout['completed-sets'] + 1}} of {{workout['total-sets']}}
+
+.workout_set_body
+  h1
+    | {{exercise.name}}: {{instructions}}
+
+  ul.workout_set_body--summary-list
+    li.workout_set_body--summary-item
+      span.workout_set_body--summary-label
+        | Reps
+      span.workout_set_body--summary-value ng-if='reps'
+        ': {{reps}}
+      button.workout_set_body--summary-action ng-if='reps' ng-click='resetReps()' change
+    li.workout_set_body--summary-item ng-if="action == 'input-weight' || weight"
+      span.workout_set_body--summary-label
+        | Weight
+      span.workout_set_body--summary-value ng-if='weight'
+        ': {{weight}}
+      button.workout_set_body--summary-action ng-if='weight' ng-click='resetWeight()' change
+
+  .workout_set_body--action
+    .workout_set_body--action--input-reps ng-if="!action || action == 'input-reps'"
+      .input-grid
+        button ng-repeat='reps in repRange' ng-click='saveReps(reps)' {{reps}}
+    .workout_set_body--action--input-weight ng-if="action == 'input-weight'"
+      .input-grid
+        button ng-repeat='weight in weightRange' ng-click='saveWeight(weight)' {{weight}}
+    .workout_set_body--action--review ng-if="action == 'review'"
+      button.workout_set_body--action--next-set ng-click='save()' Next Set
+
+

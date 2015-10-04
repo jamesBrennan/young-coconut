@@ -10,7 +10,7 @@ module Api
         workout = Workout.find(params[:workout_id])
         workout_set = workout.next_set
         if workout_set
-          serialize workout_set, include: 'exercise'
+          serialize workout_set, include: params[:include]
         else
           serialize_error Errors::WorkoutComplete.new workout: workout
         end
