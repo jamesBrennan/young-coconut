@@ -46,7 +46,7 @@ class Workout < ActiveRecord::Base
   end
 
   def detail
-    template = "%s was started on %s. <br> %s of %s sets have been completed."
+    template = "%s was started on %s. %s of %s sets have been completed."
     values = [routine.name, created_at.to_s(:short), workout_sets.count, routine.routine_sets.count]
     template % values
   end
@@ -57,12 +57,16 @@ class Workout < ActiveRecord::Base
 
   private
 
+  def self.set_comparison(operator)
+    "count(distinct(routine_sets.id)) #{operator} count(distinct(workout_sets.id))"
+  end
+
   def self.in_progress_ids
-    select_ids.having('count(routine_sets.id) > count(workout_sets.id)')
+    select_ids.having set_comparison(">")
   end
 
   def self.completed_ids
-    select_ids.having('count(routine_sets.id) = count(workout_sets.id)')
+    select_ids.having set_comparison("=")
   end
 
   def self.select_ids

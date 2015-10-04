@@ -2,19 +2,14 @@ NewWorkoutController = ($scope, $location, workoutService, routineService) ->
   nextWorkoutSetPath = (workout_id) ->
     "/workouts/#{workout_id}/workout_sets/next"
 
-  conflictId = (response) ->
-    conflict = response.data.error.meta.conflicting_resource
-    conflict.data.id
-
-  redirectToConflicting = (response) ->
-    path = nextWorkoutSetPath(conflictId response)
-    $location.path path
+  redirectTo = (id) ->
+    $location.path nextWorkoutSetPath(id)
 
   workoutService.new (workout) ->
     $scope.workout = workout
-  , (response) ->
-    switch response.status
-      when 409 then redirectToConflicting(response)
+  , (error) ->
+    switch error.status
+      when 409 then redirectTo(error.conflicting_resource.id)
 
   routineService.query {}, (routines) ->
     $scope.routine = routines.first
@@ -22,8 +17,7 @@ NewWorkoutController = ($scope, $location, workoutService, routineService) ->
 
   $scope.startWorkout = ->
     workoutService.create $scope.workout, (workout) ->
-      console.log(workout: workout)
-      $location.path nextWorkoutSetPath(workout.id)
+      redirectTo workout.id
 
 NewWorkoutController.$inject = ['$scope','$location','workoutService','routineService']
 angular.module('YoungCoconut::Workouts').controller 'NewWorkoutController', NewWorkoutController
