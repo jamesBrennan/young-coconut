@@ -1,53 +1,59 @@
-WorkoutSetController = ($scope, $routeParams, $window, workoutService) ->
-  workoutService.get id: $routeParams.workout_id, include: 'routine', (workout) ->
-    $scope.workout = workout
+WorkoutSetController = ($, $params, $window, $location, workouts, routes) ->
+  workouts.get id: $params.workout_id, include: 'routine', (workout) ->
+    $.workout = workout
 
   onSuccess = (workoutSet) ->
-    $scope.workoutSet   = workoutSet
-    $scope.exercise     = workoutSet.exercise
-    $scope.instructions = workoutSet['routine-set'].instructions
+    $.workoutSet   = workoutSet
+    $.exercise     = workoutSet.exercise
+    $.instructions = workoutSet['routine-set'].instructions
 
   loadNextSet = ->
-    workoutService.nextSet $routeParams.workout_id, onSuccess, (response) ->
-      $window.location = "/"
+    workouts.get id: $params.workout_id, include: 'routine', (workout) ->
+      $.workout = workout
+
+    workouts.nextSet $params.workout_id, onSuccess, (response) ->
+      $location.path routes.showWorkoutPath(id: response.conflicting_resource.id)
 
   loadRequestedSet = ->
-    workoutService.getSet($routeParams, onSuccess)
+    workouts.getSet($params, onSuccess)
 
-  switch $routeParams.id
+  switch $params.id
     when 'next' then loadNextSet()
     else loadRequestedSet()
 
-  $scope.setAction = (action) ->
-    $scope.action = action
+  $.setAction = (action) ->
+    $.action = action
 
-  $scope.saveReps = (reps) ->
-    $scope.reps = reps
-    $scope.action = if $scope.weight then 'review' else 'input-weight'
+  $.saveReps = (reps) ->
+    $.reps = reps
+    $.action = if $.weight then 'review' else 'input-weight'
 
-  $scope.resetReps = ->
-    delete $scope.reps
-    $scope.action = 'input-reps'
+  $.resetReps = ->
+    delete $.reps
+    $.action = 'input-reps'
 
-  $scope.saveWeight = (weight) ->
-    $scope.weight = weight
-    $scope.action = 'review'
+  $.saveWeight = (weight) ->
+    $.weight = weight
+    $.action = 'review'
 
-  $scope.resetWeight = ->
-    delete $scope.weight
-    $scope.action = 'input-weight'
+  $.resetWeight = ->
+    delete $.weight
+    $.action = 'input-weight'
 
-  $scope.save = ->
-    $scope.workoutSet.metrics =
-      reps: $scope.reps,
-      weight: $scope.weight
-    workoutService.saveSet $routeParams.workout_id, $scope.workoutSet, ->
-      $window.location.reload()
+  $.save = ->
+    $.workoutSet.metrics =
+      reps: $.reps,
+      weight: $.weight
+
+    workouts.saveSet $params.workout_id, $.workoutSet, ->
+      $.resetWeight()
+      $.resetReps()
+      loadNextSet()
     , (response) ->
       console.log(response)
 
-  $scope.repRange = [1..20]
-  $scope.weightRange = (weight for weight in [5..100] by 2.5)
+  $.repRange = [1..20]
+  $.weightRange = (weight for weight in [5..100] by 2.5)
 
-WorkoutSetController.$inject = ['$scope','$routeParams','$window','workoutService']
+WorkoutSetController.$inject = ['$scope','$routeParams','$window','$location','workoutService','workoutRouteHelper']
 angular.module('YoungCoconut::Workouts').controller 'WorkoutSetController', WorkoutSetController
