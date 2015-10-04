@@ -13,7 +13,11 @@ class Workout < ActiveRecord::Base
   end
 
   def self.in_progress
-    where(completed: nil)
+    where(id: in_progress_ids)
+  end
+
+  def self.completed
+    where(id: completed_ids)
   end
 
   def next_set
@@ -45,5 +49,26 @@ class Workout < ActiveRecord::Base
     template = "%s was started on %s. <br> %s of %s sets have been completed."
     values = [routine.name, created_at.to_s(:short), workout_sets.count, routine.routine_sets.count]
     template % values
+  end
+
+  def completed
+    @completed ||= Workout.completed_ids.pluck(:id).include? id
+  end
+
+  private
+
+  def self.in_progress_ids
+    select_ids.having('count(routine_sets.id) > count(workout_sets.id)')
+  end
+
+  def self.completed_ids
+    select_ids.having('count(routine_sets.id) = count(workout_sets.id)')
+  end
+
+  def self.select_ids
+    select(:id)
+      .joins(routine: :routine_sets)
+      .joins("LEFT OUTER JOIN workout_sets ON workout_sets.workout_id = workouts.id")
+      .group(:id)
   end
 end

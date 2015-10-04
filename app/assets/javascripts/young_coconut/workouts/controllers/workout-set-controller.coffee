@@ -1,4 +1,4 @@
-WorkoutSetController = ($scope, $routeParams, workoutService) ->
+WorkoutSetController = ($scope, $routeParams, $window, workoutService) ->
   workoutService.get id: $routeParams.workout_id, include: 'routine', (workout) ->
     $scope.workout = workout
 
@@ -8,7 +8,8 @@ WorkoutSetController = ($scope, $routeParams, workoutService) ->
     $scope.instructions = workoutSet['routine-set'].instructions
 
   loadNextSet = ->
-    workoutService.nextSet($routeParams.workout_id, onSuccess)
+    workoutService.nextSet $routeParams.workout_id, onSuccess, (response) ->
+      $window.location = "/"
 
   loadRequestedSet = ->
     workoutService.getSet($routeParams, onSuccess)
@@ -36,8 +37,17 @@ WorkoutSetController = ($scope, $routeParams, workoutService) ->
     delete $scope.weight
     $scope.action = 'input-weight'
 
+  $scope.save = ->
+    $scope.workoutSet.metrics =
+      reps: $scope.reps,
+      weight: $scope.weight
+    workoutService.saveSet $routeParams.workout_id, $scope.workoutSet, ->
+      $window.location.reload()
+    , (response) ->
+      console.log(response)
+
   $scope.repRange = [1..20]
   $scope.weightRange = (weight for weight in [5..100] by 2.5)
 
-WorkoutSetController.$inject = ['$scope','$routeParams','workoutService']
+WorkoutSetController.$inject = ['$scope','$routeParams','$window','workoutService']
 angular.module('YoungCoconut::Workouts').controller 'WorkoutSetController', WorkoutSetController

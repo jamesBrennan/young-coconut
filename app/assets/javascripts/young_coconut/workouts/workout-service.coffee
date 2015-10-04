@@ -5,11 +5,15 @@ workoutService = (Workout, WorkoutSet) ->
   get: (params, success = (->), error = (->)) ->
     Workout.get params, success, error
 
-  create: (attrs) ->
-    Workout.save {}, attrs
+  create: (attrs, success = (->), error = (->)) ->
+    Workout.save {}, attrs, success, error
 
-  nextSet: (workout_id, success = (->), error = (->)) ->
-    params = { workout_id: workout_id, id: 'new', include: 'workout,exercise,routine-set' }
+  saveSet: (workoutId, attrs, success = (->), error = (->)) ->
+    params = { workout_id: workoutId }
+    WorkoutSet.save params, attrs, success, error
+
+  nextSet: (workoutId, success = (->), error = (->)) ->
+    params = { workout_id: workoutId, id: 'new', include: 'workout,exercise,routine-set' }
     WorkoutSet.get params, success, error
 
 workoutService.$inject = ['Workout','WorkoutSet']

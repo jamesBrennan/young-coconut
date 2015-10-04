@@ -18,7 +18,7 @@ module Api
       def create
         workout = Workout.new(create_params)
         if workout.save
-          serialize workout, status: 201, headers: { "Location" => api_v1_workouts_url(workout) }
+          serialize workout, status: 201, headers: { "Location" => api_v1_workout_url(workout) }
         else
           serialize_error Errors::ValidationError.new(resource: workout)
         end
@@ -55,7 +55,7 @@ module Api
       end
 
       def workout_in_progress
-        Workout.includes(:workout_sets, routine: :routine_sets).in_progress.for_user(current_user).first
+        Workout.in_progress.for_user(current_user).first
       end
     end
   end

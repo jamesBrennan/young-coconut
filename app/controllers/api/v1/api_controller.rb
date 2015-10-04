@@ -14,7 +14,10 @@ module Api
         status    = opts[:status] || 200
         list      = !!opts[:list]
         body      = JSONAPI::Serializer.serialize(resource, is_collection: list, include: includes)
-        render json: body, status: status, headers: headers
+        headers && headers.each do |key, value|
+          response[key] = value
+        end
+        render json: body, status: status
       end
     end
   end
