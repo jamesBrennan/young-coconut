@@ -1,5 +1,5 @@
 WorkoutController = ($scope, $routeParams, workoutService) ->
-  params = $.extend({}, $routeParams, {include: 'workout-sets'})
+  params = $.extend({}, $routeParams, {include: 'workout_sets'})
 
   workoutService.get params, (workout) ->
     $scope.workout = workout

@@ -1,12 +1,13 @@
 .workout_set_header
-  .workout_set_header__name ng-bind='workout.routine.name'
-  .workout_set_header__progress
-    | Set {{workout['completed-sets'] + 1}} of {{workout['total-sets']}}
+  .workout_set_header--top-band
+    .workout_set_header__name ng-bind='workout.routine.name'
+    .workout_set_header__progress
+      | Set {{workout['completed-sets'] + 1}} of {{workout['total-sets']}}
+  .workout_set_header--bottom-band
+    .workout_set_header__exercise-name ng-bind='exercise.name'
+    .workout_set_header__instructions ng-bind='instructions'
 
 .workout_set_body
-  h1
-    | {{exercise.name}}: {{instructions}}
-
   ul.workout_set_body--summary-list
     li.workout_set_body--summary-item
       span.workout_set_body--summary-label

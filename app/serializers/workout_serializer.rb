@@ -5,4 +5,6 @@ class WorkoutSerializer < BaseSerializer
 
   has_one :user
   has_one :routine
+
+  has_many :workout_sets
 end
