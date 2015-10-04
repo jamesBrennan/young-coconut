@@ -1,4 +1,4 @@
-describe 'ResourceIndex Factory', ->
+describe 'JSONAPIIndexFactory Factory', ->
   beforeEach module 'YoungCoconut::Api'
 
   beforeEach ->
@@ -10,13 +10,13 @@ describe 'ResourceIndex Factory', ->
     @includes = [@chest, @legs, @set_1, @set_2]
 
   describe 'constructor', ->
-    it 'returns a queryable index', inject (ResourceIndex) ->
-      resourceIndex = new ResourceIndex(@includes)
+    it 'returns a queryable index', inject (JSONAPIIncludesIndex) ->
+      resourceIndex = new JSONAPIIncludesIndex(@includes)
       expect(resourceIndex.get({type: 'routines', id: 1})).toEqual @chest
 
   describe 'querying the index', ->
-    beforeEach inject (ResourceIndex) ->
-      @index = new ResourceIndex(@includes)
+    beforeEach inject (JSONAPIIncludesIndex) ->
+      @index = new JSONAPIIncludesIndex(@includes)
 
     describe 'with a type that does not exist in the index', ->
       it 'returns null', ->

@@ -8,7 +8,7 @@ WorkoutSetController = ($scope, $routeParams, $window, workoutService) ->
     $scope.instructions = workoutSet['routine-set'].instructions
 
   loadNextSet = ->
-    workoutService.nextSet $routeParams.workout_id, onSuccess, (response) ->
+    workoutService.nextSet $routeParams.workout_id, onSuccess, (error) ->
       $window.location = "/"
 
   loadRequestedSet = ->
