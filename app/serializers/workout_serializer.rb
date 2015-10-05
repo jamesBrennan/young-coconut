@@ -1,5 +1,6 @@
 class WorkoutSerializer < BaseSerializer
   attribute :id
+  attribute :updated_at
   attribute :total_sets
   attribute :completed_sets
 

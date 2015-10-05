@@ -3,7 +3,7 @@ module Api
     class WorkoutSetsController < ApiController
       def index
         workout_sets = WorkoutSet.where(workout_id: params[:workout_id])
-        serialize workout_sets, list: true
+        serialize workout_sets, list: true, include: params[:include]
       end
 
       def new

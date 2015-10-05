@@ -1,2 +1,15 @@
-h1 ng-bind='workout.routine.name'
-h3 ng-bind-html='detail'
+.workout_summary
+  h1
+    | {{workout.routine.name}} Summary
+  h3
+    | {{ workout['updated-at'] | date:'EEE, M/d/yy h:mm a' }}
+  table
+    thead
+      tr
+        th Exercise
+        th Reps
+        th Weight
+    tr ng-repeat='set in sets'
+      td ng-bind='set.exercise.name'
+      td ng-bind='set.metrics.reps'
+      td ng-bind='set.metrics.weight'

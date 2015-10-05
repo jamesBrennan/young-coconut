@@ -19,5 +19,8 @@ workoutService = (Workout, WorkoutSet, ErrorTransform) ->
     params = { workout_id: workoutId, id: 'new', include: 'workout,exercise,routine-set' }
     WorkoutSet.get params, success, wrappedErrorHandler(error)
 
+  allSets: (workoutId, success = (->), error = (->)) ->
+    WorkoutSet.query workout_id: workoutId, include: 'exercise', success, error
+
 workoutService.$inject = ['Workout','WorkoutSet','ErrorTransform']
 angular.module('YoungCoconut::Workouts').service 'workoutService', workoutService
