@@ -38,7 +38,7 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
-    angular-rails-templates (0.1.4)
+    angular-rails-templates (0.1.3)
       railties (>= 3.1)
       sprockets
       tilt
@@ -184,7 +184,7 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord-nulldb-adapter
-  angular-rails-templates
+  angular-rails-templates (= 0.1.3)
   bower-rails
   byebug
   coffee-rails (~> 4.1.0)
