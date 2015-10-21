@@ -9,3 +9,9 @@ development:
 test:
   <<: *common
   database: young_coconut_test
+
+production:
+  username: <%= ENV['DB_USERNAME'] %>
+  password: <%= ENV['DB_PASSWORD'] %>
+  adapter: postgresql
+  database: young_coconut

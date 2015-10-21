@@ -22,6 +22,10 @@ gem 'angular-rails-templates', '0.1.3'
 gem 'jsonapi-serializers'
 
 gem 'capistrano', '~> 3.4.0'
+gem 'capistrano-rvm'
+gem 'capistrano-bundler'
+gem 'capistrano-rails'
+gem 'unicorn'
 
 group :development, :test do
   gem 'byebug'
