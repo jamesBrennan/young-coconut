@@ -3,6 +3,7 @@ lock '3.4.0'
 
 set :application, 'young_coconut'
 set :repo_url, 'git@github.com:jamesBrennan/young-coconut.git'
+set :rvm_ruby_version, '2.2.3'
 
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp

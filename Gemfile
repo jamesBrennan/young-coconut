@@ -8,8 +8,6 @@ gem 'rails', '4.2.3'
 # database
 gem 'pg'
 
-gem 'rails_12factor'
-
 # assets
 gem 'sass-rails', '~> 5.0'
 gem 'slim-rails'
