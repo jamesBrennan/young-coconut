@@ -21,6 +21,8 @@ gem 'angular-rails-templates', '0.1.3'
 # http request/response
 gem 'jsonapi-serializers'
 
+gem 'capistrano', '~> 3.4.0'
+
 group :development, :test do
   gem 'byebug'
   gem 'web-console', '~> 2.0'
