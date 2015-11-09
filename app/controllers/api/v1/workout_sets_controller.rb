@@ -35,7 +35,9 @@ module Api
       private
 
       def workout_set_params
-        params.require(:data).permit({ attributes: [ { metrics: [:reps,:weight] }] }, { relationships: [{ routine_set: { data: :id } }]})
+        attributes = [{ metrics: [:reps, :weight] }]
+        relationships = [{ routine_set: { data: :id } }]
+        params.require(:data).permit attributes: attributes, relationships: relationships
       end
 
       def relationship_params

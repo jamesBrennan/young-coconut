@@ -5,8 +5,6 @@ WorkoutController = ($scope, $routeParams, workoutService) ->
     $scope.workout = workout
 
   workoutService.allSets $routeParams.id, (sets) ->
-    for set in sets
-      console.log(set.metrics)
     $scope.sets = sets
 
 WorkoutController.$inject = ['$scope','$routeParams','workoutService']

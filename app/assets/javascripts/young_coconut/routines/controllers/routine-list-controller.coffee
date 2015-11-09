@@ -1,7 +1,6 @@
 routineListController = ($scope, routineService) ->
-  routineService.query({}, (routines) ->
+  routineService.query {}, (routines) ->
     $scope.routines = routines
-  )
 
   $scope.routineUrl = (routine) ->
     "#/routines/#{routine.id}"
